@@ -1,0 +1,8 @@
+<component name="ArtifactManager">
+  <artifact type="jar" name="Gabon_eval:jar">
+    <output-path>$PROJECT_DIR$/out/artifacts/Gabon_eval_jar</output-path>
+    <root id="archive" name="Gabon_eval.jar">
+      <element id="module-output" name="Gabon_eval" />
+    </root>
+  </artifact>
+</component>
