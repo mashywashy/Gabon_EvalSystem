@@ -229,12 +229,29 @@ public class StudentInfoForm extends JFrame {
 
         try {
             int subjectCount = Integer.parseInt(subjectCountText);
-            if (subjectCount <= 0 || subjectCount > 15) {
-                JOptionPane.showMessageDialog(this,
-                        "Please enter a valid number of subjects (1-15).",
-                        "Invalid Input",
-                        JOptionPane.ERROR_MESSAGE);
-                return;
+            String selectedYear = (String) yearComboBox.getSelectedItem();
+            boolean isThirdYearOrBelow = selectedYear.equals("1st Year") ||
+                    selectedYear.equals("2nd Year") ||
+                    selectedYear.equals("3rd Year");
+
+
+            if (isThirdYearOrBelow) {
+                if (subjectCount < 8 || subjectCount > 10) {
+                    JOptionPane.showMessageDialog(this,
+                            "3rd year students and below must take between 8-10 subjects.",
+                            "Invalid Input",
+                            JOptionPane.ERROR_MESSAGE);
+                    return;
+                }
+            } else {
+                // Original validation for 4th year students
+                if (subjectCount <= 0 || subjectCount > 10) {
+                    JOptionPane.showMessageDialog(this,
+                            "Please enter a valid number of subjects",
+                            "Invalid Input",
+                            JOptionPane.ERROR_MESSAGE);
+                    return;
+                }
             }
 
             // Create new dialog for subject inputs
@@ -596,6 +613,10 @@ public class StudentInfoForm extends JFrame {
                     subjectsTaken.put(subjectCode, "Pass".equals(status));
                 }
             }
+
+            for(SubjectData data : savedSubjectData) {
+                subjectsTaken.put(data.subject, "pass".equalsIgnoreCase(data.status));
+            }
         }
 
         // If no subjects have been entered, show a message
@@ -626,11 +647,33 @@ public class StudentInfoForm extends JFrame {
 
         if (subjectsTaken == null) {
             // For first year, first semester - use default method
+
             subjects = se.getRecommendedSubjects();
         } else {
             // For other years/semesters - use overloaded method
             subjects = se.getRecommendedSubjects(subjectsTaken, yearNum, semesterNum);
         }
+
+        System.out.println("\n----- RECOMMENDED SUBJECTS -----");
+        System.out.println("Year: " + yearComboBox.getSelectedItem() +
+                ", Semester: " + semesterComboBox.getSelectedItem());
+
+        if (subjects.isEmpty()) {
+            System.out.println("No subjects recommended");
+        } else {
+            System.out.println("Subject Code\tUnits");
+            System.out.println("------------------------");
+            int totalUnits = 0;
+
+            for (Subject subject : subjects) {
+                System.out.println(subject.getCode() + "\t\t" + subject.getUnits());
+                totalUnits += subject.getUnits();
+            }
+
+            System.out.println("------------------------");
+            System.out.println("Total Units:\t" + totalUnits);
+        }
+        System.out.println("--------------------------------\n");
 
         int totalUnits = 0;
 
