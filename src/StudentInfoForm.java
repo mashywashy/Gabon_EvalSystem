@@ -28,6 +28,9 @@ public class StudentInfoForm extends JFrame {
     private List<Subject> allSubjects; // List of all subjects from the curriculum
     private JButton clearFieldsButton;
 
+    // Add this with other field declarations
+    private JComboBox<String> programComboBox;
+
     public StudentInfoForm() {
         // Set up the frame
         setTitle("Student Information");
@@ -107,6 +110,9 @@ public class StudentInfoForm extends JFrame {
         // Text fields for name and ID
         nameField = new JTextField(20);
         idField = new JTextField(20);
+
+        // Add this in initComponents()
+        programComboBox = new JComboBox<>(new String[]{"BSIT", "BSIS", "BSCS"});
 
         // Combo boxes for year and semester
         yearComboBox = new JComboBox<>(new String[]{"1st Year", "2nd Year", "3rd Year", "4th Year"});
@@ -868,31 +874,42 @@ public class StudentInfoForm extends JFrame {
         gbc.weightx = 1.0;
         formPanel.add(idField, gbc);
 
-        // Add year components
         gbc.gridx = 0;
         gbc.gridy = 2;
+        gbc.weightx = 0.0;
+        formPanel.add(new JLabel("Program:"), gbc);
+
+        gbc.gridx = 1;
+        gbc.gridy = 2;
+        gbc.weightx = 1.0;
+        formPanel.add(programComboBox, gbc);
+
+
+        // Add year components
+        gbc.gridx = 0;
+        gbc.gridy = 3;
         gbc.weightx = 0.0;
         formPanel.add(new JLabel("Year Level:"), gbc);
 
         gbc.gridx = 1;
-        gbc.gridy = 2;
+        gbc.gridy = 3;
         gbc.weightx = 1.0;
         formPanel.add(yearComboBox, gbc);
 
         // Add semester components
         gbc.gridx = 0;
-        gbc.gridy = 3;
+        gbc.gridy = 4;
         gbc.weightx = 0.0;
         formPanel.add(new JLabel("Semester:"), gbc);
 
         gbc.gridx = 1;
-        gbc.gridy = 3;
+        gbc.gridy = 4;
         gbc.weightx = 1.0;
         formPanel.add(semesterComboBox, gbc);
 
         // Add subjects taken components with a button
         gbc.gridx = 0;
-        gbc.gridy = 4;
+        gbc.gridy = 5;
         gbc.weightx = 0.0;
         JLabel subjectsLabel = new JLabel("Number of Subjects Taken Recently:");
         formPanel.add(subjectsLabel, gbc);
@@ -907,13 +924,13 @@ public class StudentInfoForm extends JFrame {
         subjectsPanel.add(clearFieldsButton);
 
         gbc.gridx = 1;
-        gbc.gridy = 4;
+        gbc.gridy = 5;
         gbc.weightx = 1.0;
         formPanel.add(subjectsPanel, gbc);
 
         // Add subject history panel
         gbc.gridx = 0;
-        gbc.gridy = 5;
+        gbc.gridy = 6;
         gbc.gridwidth = 2;
         gbc.weightx = 1.0;
         gbc.weighty = 1.0;
